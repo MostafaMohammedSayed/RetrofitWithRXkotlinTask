@@ -1,26 +1,50 @@
 package com.example.android.retrofitwithrxkotlintask.ui
 
-import android.util.Log
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.retrofitwithrxkotlintask.models.Album
 import com.example.android.retrofitwithrxkotlintask.models.User
-import com.example.android.retrofitwithrxkotlintask.repository.Repository
+import com.example.android.retrofitwithrxkotlintask.network.logger.Companion.debug
+import com.example.android.retrofitwithrxkotlintask.network.logger.Companion.debugError
+import com.example.android.retrofitwithrxkotlintask.repository.UserRepository
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class UserViewModel: ViewModel(){
-    val repo = Repository()
+    private val repo = UserRepository()
 
-    private val _userLiveData: LiveData<User>
-    val userLivedata: LiveData<User>
-        get() = _userLiveData
+    var userLivedata = MutableLiveData<User>()
+        private set
 
-    private val _albumsLiveData: LiveData<List<Album>>
-    val albumsLivaData: LiveData<List<Album>>
-        get() = _albumsLiveData
+    var albumsLivaData = MutableLiveData<List<Album>>()
+        private set
 
     init {
-        Log.i("UserViewModel", "is working")
-        _userLiveData = repo.fetchUser()
-        _albumsLiveData = repo.fetchUserAlbums()
+        debug("is working")
+        zipping()
+    }
+
+    private fun zipping(){
+        Observable.zip(
+            repo.fetchUser(),
+            repo.fetchUserAlbums(),
+            { user, albums ->
+                gathering(user,albums)
+            }
+        ).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onNext = { debug("setting LiveData") },
+                onError = { throwable->
+                    debugError(throwable.message,throwable)},
+                onComplete = { debug("completed setting") }
+            )
+    }
+
+    private fun gathering(user: User, albums: List<Album>){
+        userLivedata.postValue(user)
+        albumsLivaData.postValue(albums)
     }
 }

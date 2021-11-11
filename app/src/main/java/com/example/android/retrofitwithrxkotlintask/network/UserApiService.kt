@@ -3,7 +3,7 @@ package com.example.android.retrofitwithrxkotlintask.network
 import com.example.android.retrofitwithrxkotlintask.models.Album
 import com.example.android.retrofitwithrxkotlintask.models.User
 import com.google.gson.GsonBuilder
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,13 +15,13 @@ private val userDeserializer = GsonBuilder()
     .create()
 
 private val usersRetrofit = Retrofit.Builder()
-    .baseUrl(BASEURL)
+    .baseUrl(Constants.BASE_URL)
     .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
     .addConverterFactory(GsonConverterFactory.create(userDeserializer))
     .build()
 
 private val albumRetrofit = Retrofit.Builder()
-    .baseUrl(BASEURL)
+    .baseUrl(Constants.BASE_URL)
     .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
     .addConverterFactory(GsonConverterFactory.create())
     .build()
@@ -30,16 +30,18 @@ private val albumRetrofit = Retrofit.Builder()
 interface UserApiService{
 
     @GET("users/{id}")
-    fun getUser(@Path(value = "id")key: Int): Flowable<User>
+    fun getUser(@Path(value = "id")userID: Int): Observable<User>
 
     @GET("users/{id}/albums")
-    fun getUserAlbums(@Path(value = "id")key: Int): Flowable<List<Album>>
+    fun getUserAlbums(@Path(value = "id")userID: Int): Observable<List<Album>>
 }
 
 object UserApi{
+
     val usersRetrofitService: UserApiService by lazy {
         usersRetrofit.create(UserApiService::class.java)
     }
+
 
     val albumsretRofitService: UserApiService by lazy {
         albumRetrofit.create(UserApiService::class.java)

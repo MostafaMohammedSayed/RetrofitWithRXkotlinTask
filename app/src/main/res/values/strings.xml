@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RetrofitWithRXkotlinTask</string>
+    <string name="user_address">%1$s, %2$s, %3$s,\n%4$s</string>
 </resources>
