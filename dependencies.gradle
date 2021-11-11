@@ -26,7 +26,7 @@ ext{
     retrofitVersion = "2.9.0"
     retrofit2AdapterRxjava3Version = "2.9.0"
     retrofit2ConverterScalarsVersion = "2.5.0"
-    retrofit2:ConverterGsonVersion = "2.9.0"
+    retrofit2ConverterGsonVersion = "2.9.0"
 
     rxjavaVersion = "3.0.0"
 
