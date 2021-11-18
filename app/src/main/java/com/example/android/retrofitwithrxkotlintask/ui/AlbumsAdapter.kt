@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.retrofitwithrxkotlintask.R
 import com.example.android.retrofitwithrxkotlintask.models.Album
 
-class AlbumsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AlbumsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var albums = ArrayList<Album>()
+    val albums = ArrayList<Album>()
 
     override fun getItemViewType(position: Int): Int {
         return if (albums.size == 0) {

@@ -1,4 +1,4 @@
-package com.example.android.retrofitwithrxkotlintask.models
+package com.example.android.retrofitwithrxkotlintask.base
 
 class Resource<T> constructor(
     val value: T? = null,
