@@ -8,15 +8,15 @@ import com.example.android.retrofitwithrxkotlintask.network.UserApi
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class UserRepositoryImpl: UserRepository {
+class UserRemoteRepositoryImpl: UserRepository {
 
-    override fun fetchUserById(): Observable<User> {
-         return UserApi.retrofitService.getUserById(Constants.USER_ID)
+    override fun fetchUserById(userId: Int): Observable<User> {
+         return UserApi.retrofitService.getUserById(userId)
                     .subscribeOn(Schedulers.io())
     }
 
-    override fun fetchUserAlbumsByUserId(): Observable<List<Album>>{
-        return UserApi.retrofitService.getUserAlbumsByUserId(Constants.USER_ID)
+    override fun fetchUserAlbumsByUserId(userId: Int): Observable<List<Album>>{
+        return UserApi.retrofitService.getUserAlbumsByUserId(userId)
                 .subscribeOn(Schedulers.io())
     }
 

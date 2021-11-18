@@ -15,22 +15,22 @@ private val retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .build()
 
-interface UserApiService{
+interface UserApiService {
 
     @GET("users/{id}")
-    fun getUserById(@Path(value = "id")userID: Int): Observable<User>
+    fun getUserById(@Path(value = "id") userID: Int): Observable<User>
 
     @GET("users")
     fun getUsers(): Observable<List<User>>
 
     @GET("users/{id}/albums")
-    fun getUserAlbumsByUserId(@Path(value = "id")userID: Int): Observable<List<Album>>
+    fun getUserAlbumsByUserId(@Path(value = "id") userID: Int): Observable<List<Album>>
 
     @GET("albums")
     fun getAllUsersAlbums(): Observable<List<Album>>
 }
 
-object UserApi{
+object UserApi {
 
     val retrofitService: UserApiService by lazy {
         retrofit.create(UserApiService::class.java)

@@ -6,9 +6,9 @@ import io.reactivex.rxjava3.core.Observable
 
 interface UserRepository {
 
-    fun fetchUserById(): Observable<User>
+    fun fetchUserById(userId: Int): Observable<User>
 
-    fun fetchUserAlbumsByUserId(): Observable<List<Album>>
+    fun fetchUserAlbumsByUserId(userId: Int): Observable<List<Album>>
 
     fun fetchUsers(): Observable<List<User>>
 
